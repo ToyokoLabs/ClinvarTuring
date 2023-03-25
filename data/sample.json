@@ -1,0 +1,10 @@
+[{"instruction": "Which condition is asociated with RS80358152?", "output": "Hereditary breast and ovarian cancer syndrome (HBOC), 
+caused by a germline mutation \nin BRCA1 or BRCA2, is characterized by an increased risk for breast cancer, ovarian cancer, 
+prostate cancer, and pancreatic \ncancer. The lifetime risk for these cancers in individuals with a mutation in BRCA1 or BRCA2: 
+40%-80% for breast cancer. 11%-40% \nfor ovarian cancer. 1%-10% for male breast cancer. Up to 39% for prostate cancer. 1%-7% for 
+pancreatic cancer. Individuals with \nBRCA2 mutations may also be at an increased risk for melanoma. Prognosis for BRCA1/2-related 
+cancer depends on the stage at which \nthe cancer is diagnosed; however, studies on survival have revealed conflicting results for 
+individuals with germline BRCA1 or \nBRCA2 mutations when compared to controls. The associated SNPedia page is 
+https://www.snpedia.com/index.php/Rs80358152. The NCBI page is https://www.ncbi.nlm.nih.gov/snp/80358152."}, {"instruction": "In 
+which chromosome is located the RS80358152 SNP?", "output": "It is located in the chromosome 17"}, {"instruction": "Which methods 
+support the evidence found for the RS80358152 SNP?", "output": "Associated methods are: clinical testing"}]
