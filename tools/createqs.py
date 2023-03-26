@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import json
 
 
- with open('../data/sample.xml') as f:
+with open('../data/sample.xml') as f:
     data = f.read()
  
 Bs_data = BeautifulSoup(data, "xml")
@@ -40,5 +40,5 @@ all_methods = list(all_methods)
 d["output"] = f'Associated methods are: {",".join(all_methods)}'
 all_qa.append(d)
 
-print(json.dumps(all_qa))
+json.dump(all_qa, open("sample.json", 'w'))
 
