@@ -40,5 +40,5 @@ all_methods = list(all_methods)
 d["output"] = f'Associated methods are: {",".join(all_methods)}'
 all_qa.append(d)
 
-json.dump(all_qa, open("sample.json", 'w'))
+json.dump(all_qa, open("../data/sample.json", 'w'))
 
