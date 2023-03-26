@@ -3,6 +3,7 @@
 # ClinVarTuring
 ClinVarTuring tests AI models in personalized medicine
 
+NOTE: At this stage this is a PoC, it shows that the ClinVar XML dataset can be used built data for fine tunning a generative model.
 
 
 ## Relevant links
