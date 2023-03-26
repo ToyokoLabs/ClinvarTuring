@@ -8,6 +8,7 @@ NOTE: At this stage this is a PoC, it shows that the ClinVar XML dataset can be 
 
 ## Relevant links
 
+* Source data: https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/
 * BioGPT: generative pre-trained transformer for biomedical text generation and mining https://academic.oup.com/bib/article/23/6/bbac409/6713511
 * https://github.com/microsoft/BioGPT
 * https://github.com/sahil280114/codealpaca
