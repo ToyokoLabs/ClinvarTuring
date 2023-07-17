@@ -24,7 +24,7 @@ for event, node in event_stream:
             i += 1
             event_stream.expandNode(node)
             nodecontent = node.toxml()
-            if DISEASE in nodecontent:
+            if DISEASE in nodecontent.lower():
                 clinvarassertions = node.getElementsByTagName("ClinVarAssertion")
                 for cva in clinvarassertions:
                     traitset = cva.getElementsByTagName('TraitSet')
