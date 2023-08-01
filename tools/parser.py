@@ -6,10 +6,17 @@ import gzip
 import argparse
 from collections import defaultdict
 import xml.etree.ElementTree as ET
+import time
+import fileinput
+import sys
+import os
+
+
 
 from xml.sax import parse
 from xml.sax.handler import ContentHandler
 from xml.dom.pulldom import parse, START_ELEMENT
+
 
 # then sort it: cat clinvar_table.tsv | head -1 > clinvar_table_sorted.tsv; cat clinvar_table.tsv | tail -n +2 | sort  -k1,1 -k2,2n -k3,3 -k4,4 >> clinvar_table_sorted.tsv Reference on clinvar XML tag:
 # ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/clinvar_submission.xsd Reference on clinvar XML tag:
@@ -38,17 +45,9 @@ def remove_newlines_and_tabs(s):
 
 
 
-file1 = open('debug.txt', 'r')
-Lines = file1.readlines()
- 
-
-# Strips the newline character
-new_list = [item.strip() for item in Lines]
-
-
 FN = "ClinVarFullRelease_00-latest.xml"
 event_stream = parse(FN)
-
+id_lst = []
 
 def parse_clinvar_tree(handle, dest=sys.stdout, multi=None, verbose=False, genome_build='GRCh37'):
     """Parse clinvar XML
@@ -119,11 +118,10 @@ def parse_clinvar_tree(handle, dest=sys.stdout, multi=None, verbose=False, genom
                     if bool(re.search('Eye cancer, retinoblastoma', disease_name_node.text)) == False:
                         break
                     else:
-                        with open('debug.txt', 'a') as f:
-                            f.write(curr_id + '\n')   # write end line
+                        id_lst.append(curr_id)   # write end line
 
 
-            current_row['all_traits'] += trait_values
+            '''current_row['all_traits'] += trait_values
             
             for attribute_node in traitset.findall('.//AttributeSet/Attribute'):
                 attribute_type = attribute_node.attrib.get('Type')
@@ -360,7 +358,7 @@ def parse_clinvar_tree(handle, dest=sys.stdout, multi=None, verbose=False, genom
                     ', '.join('%s skipped due to %s' % (v, k) for k, v in skipped_counter.items()),
                     counter + sum(skipped_counter.values())
                 ))
-                sys.stderr.flush()
+                sys.stderr.flush()'''
 
         # done parsing the xml for this one clinvar set.
         elem.clear()
@@ -392,3 +390,40 @@ if __name__ == '__main__':
         f.close()
     else:
         parse_clinvar_tree(get_handle(args.xml_path), dest=args.out, genome_build=args.genome_build)
+
+
+print('###################Writing XML#########################')
+FN = "ClinVarFullRelease_00-latest.xml"
+
+event_stream = parse(FN)
+
+for event, node in event_stream:
+    if event == START_ELEMENT:
+        if node.tagName == 'ClinVarSet':
+            # print(node)'<Retinoblastoma>')
+            currid = node.getAttribute('ID')
+            print(currid)
+            if currid in id_lst:
+                print('========================================================')
+                event_stream.expandNode(node)
+                nodecontent = node.toxml()
+                with open('retinoblastoma.txt', 'a') as f:
+                    f.write(nodecontent + '\n')
+                print(nodecontent)
+            else:
+                #print(f'node {i}')
+                pass
+
+for line in fileinput.input(['retinoblastoma.txt'], inplace=True):
+    sys.stdout.write('  {l}'.format(l=line))
+
+with open('retinoblastoma.txt', 'r+') as f:
+    content = f.read()
+    f.seek(0, 0)
+    f.write('<Retinoblastoma>'.rstrip('\r\n') + '\n' + content)
+
+with open('retinoblastoma.txt', 'a') as f:
+    f.write('</Retinoblastoma>' + '\n')
+
+
+os.rename("retinoblastoma.txt", "retinoblastoma.xml")
