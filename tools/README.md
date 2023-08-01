@@ -1,8 +1,6 @@
 # Summary of each files
 
-`parser.py` filters the full clinvar release xml for the diseases we are looking for. It takes as input the full clinvar release xml, a search string for disease (defined within the code), and outputs IDs of variations containing that disease string. This list of IDs is stored in `debug.txt` in base directory.
-
-`mod_xmlfilter.py` takes the file of IDs as input and pulls the corresponding Clinvars nodes into a new text file `retinoblastoma.txt` as output. The text file will contain all Clinvar xmls related to the disease.
+`parser.py` filters the full clinvar release xml for the diseases we are looking for. It takes as input the full clinvar release xml, a search string for disease (defined within the code), and pulls the corresponding Clinvars nodes into a new text file `retinoblastoma.txt` as output. The text file will contain all Clinvar xmls related to the disease.
 
 `createqs.py` takes as input an xml of disease-specific variations and create json question sets based on the contents of each xml node. A temporary `temp.xml` containing the current node content is generated during intermediary stages of parsing. For cases where the variation does not have a SNP id, variation ids are used instead (e.g. Deletion, single nucleotide variation, etc). These question sets are outputted in `sample.json`.
 
