@@ -35,9 +35,6 @@ def remove_newlines_and_tabs(s):
     return re.sub("[\t\n\r]", " ", s)
 
 
-
-FN = "ClinVarFullRelease_00-latest.xml"
-event_stream = parse(FN)
 id_lst = []
 
 def parse_clinvar_tree(handle, dest=sys.stdout, multi=None, verbose=False, genome_build='GRCh37', term='Eye cancer, retinoblastoma'):
@@ -103,6 +100,7 @@ def get_handle(path):
     return handle
 
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Extract PMIDs from the ClinVar XML dump')
     parser.add_argument('-g', '--genome-build', choices=['GRCh37', 'GRCh38'],
@@ -124,50 +122,43 @@ if __name__ == '__main__':
         parse_clinvar_tree(get_handle(args.xml_path), dest=args.out, genome_build=args.genome_build, term=args.search)
 
 
-print('###################Writing XML#########################')
-FN = "ClinVarFullRelease_00-latest.xml"
+    print('###################Writing XML#########################')
 
-event_stream = parse(FN)
+    event_stream = parse(args.xml)
 
-for event, node in event_stream:
-    if event == START_ELEMENT:
-        if node.tagName == 'ClinVarSet':
-            # print(node)'<Retinoblastoma>')
-            currid = node.getAttribute('ID')
-            print(currid)
-            if currid in id_lst:
-                print('========================================================')
-                event_stream.expandNode(node)
-                nodecontent = node.toxml()
-                with open(args.out, 'a') as f:
-                    f.write(nodecontent + '\n')
-                print(nodecontent)
-            else:
-                #print(f'node {i}')
-                pass
+    for event, node in event_stream:
+        if event == START_ELEMENT:
+            if node.tagName == 'ClinVarSet':
+                currid = node.getAttribute('ID')
+                print(currid)
+                if currid in id_lst:
+                    print('========================================================')
+                    event_stream.expandNode(node)
+                    nodecontent = node.toxml()
+                    with open(args.out, 'a') as f:
+                        f.write(nodecontent + '\n')
+                    print(nodecontent)
+                else:
+                    #print(f'node {i}')
+                    pass
 
-for line in fileinput.input([args.out], inplace=True):
-    sys.stdout.write('  {l}'.format(l=line))
+    for line in fileinput.input([args.out], inplace=True):
+        sys.stdout.write('  {l}'.format(l=line))
 
 
-dname = args.out[:-4]
+    dname = args.out[:-4]
 
-with open(args.out, 'r+') as f:
-    content = f.read()
-    f.seek(0, 0)
-    f.write('<' + dname + '>'.rstrip('\r\n') + '\n' + content)
-
-
-with open(args.out, 'r+') as f:
-    content = f.read()
-    f.seek(0, 0)
-    f.write('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'.rstrip('\r\n') + '\n' + content)
+    with open(args.out, 'r+') as f:
+        content = f.read()
+        f.seek(0, 0)
+        f.write('<' + dname + '>'.rstrip('\r\n') + '\n' + content)
 
 
-with open(args.out, 'a') as f:
-    f.write('</' + dname + '>' + '\n')
+    with open(args.out, 'r+') as f:
+        content = f.read()
+        f.seek(0, 0)
+        f.write('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'.rstrip('\r\n') + '\n' + content)
 
-print(args.out)
-xmlout = args.out[:-3] + 'xml'
-print(xmlout)
-os.rename(args.out, xmlout)
+
+    with open(args.out, 'a') as f:
+        f.write('</' + dname + '>' + '\n')
