@@ -1,3 +1,6 @@
+[![Build Status](https://app.travis-ci.com/PLOS/allofplos.svg&branch=master)](https://app.travis-ci.com/PLOS/allofplos)
+
+
 <img src="logoclituring.png" height="150" width="200" alt="Employee data" title="Employee Data title">
 
 # ClinVarTuring
